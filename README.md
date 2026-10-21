@@ -38,7 +38,7 @@ The plugin is a plain ES module bundle. `client.js` is the browser half; `index.
 
 ## Privacy
 
-The plugin writes three things to `localStorage`: practice preferences, the latest 16 practice records, and the personal-best data derived from those records. Nothing is uploaded.
+The plugin writes two `localStorage` values: practice preferences and up to 16 practice records. Personal bests are derived from those records. Nothing is uploaded.
 
 ## License
 
