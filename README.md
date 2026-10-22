@@ -4,12 +4,13 @@ A bilingual typing practice panel for the DeepSeek Harness Web UI.
 
 Repository: [654970/dsh-typing-studio](https://github.com/654970/dsh-typing-studio)
 
-**中文**：中英文双语打字训练插件，带计时短文、输入法友好的评分、逐字反馈和本地记录。
+**中文**：中英文双语打字训练插件，带逐字拼音、计时短文、输入法友好的评分、逐字反馈和本地记录。
 
 ## Features
 
 - **Chinese and English practice** with 12 original passages across everyday life, technology, and culture.
 - **Timed sessions** of 30, 60, or 120 seconds.
+- **Pinyin guides** above every Chinese character, with a toggle to hide them for unassisted speed practice.
 - **IME-aware Chinese input** — only committed text is scored, so pinyin candidate editing does not create false misses.
 - **Per-character feedback** with correct, incorrect, and current-character states. The passage follows your position automatically.
 - **Live statistics** for time left, speed, accuracy, and passage progress.
@@ -35,6 +36,8 @@ Once this repository is listed in the DSH plugin catalog, install **KeyFlow Typi
 ## Development
 
 The plugin is a plain ES module bundle. `client.js` is the browser half; `index.js` is an intentionally empty Host half. All UI code is self-contained and only imports React from the Harness client module table.
+
+Pinyin readings were generated with [pypinyin](https://github.com/mozillazg/python-pinyin) (MIT) and reviewed for polyphones and structural particles in the supplied passages. pypinyin is not a runtime dependency; the published bundle contains only the annotations.
 
 ## Privacy
 

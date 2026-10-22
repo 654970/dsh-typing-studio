@@ -1,7 +1,7 @@
 {
   "name": "dsh-typing-studio",
-  "version": "1.0.0",
-  "description": "Bilingual Chinese and English typing practice for DeepSeek Harness, with timed passages, IME-aware scoring, and local records.",
+  "version": "1.1.0",
+  "description": "Bilingual Chinese and English typing practice for DeepSeek Harness, with timed passages, pinyin guides for Chinese, IME-aware scoring, and local records.",
   "type": "module",
   "license": "MIT",
   "author": "KeyFlow contributors",

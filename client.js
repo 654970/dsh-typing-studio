@@ -94,6 +94,17 @@ window.__ModuleLoader__.load({
       ]
     };
 
+    // Pinyin guides for the Chinese passages. Readings generated with pypinyin
+    // and reviewed for polyphones and structural particles.
+    const PINYIN = {
+      "zh-daily-1": "qīng chén liù diǎn bàn jiē jiǎo de biàn lì diàn gāng liàng qǐ dēng diàn yuán bǎ xīn zhǔ de chá yè dàn bǎi dào shōu yín tái biān mén kǒu de fēng líng bèi tuī mén de rén zhuàng de qīng qīng zuò xiǎng gōng jiāo zhàn tái xià chuān xiào fú de nǚ hái yī biān bèi dān cí yī biān yòng shǒu xīn nuǎn zhe ěr jī chéng shì hái méi yǒu wán quán xǐng lái què yǐ jīng yǒu rén bǎ shēng huó ān pái de jǐng jǐng yǒu tiáo wǒ xǐ huan zài zhè yàng de shí kè chū mén mǎi yī bēi rè dòu jiāng kàn yáng guāng màn màn pá shàng bō li chuāng nà xiē kàn sì pǔ tōng de zǎo chén qí shí cáng zhe xǔ duō bù dòng shēng sè de nǔ lì měi yí gè zhǔn shí dǐ dá de rén dōu zài tì zì jǐ de míng tiān pū lù rì zi bú huì yīn wèi cōng máng ér biàn duǎn rèn zhēn què néng ràng tā biàn de qīng xī",
+      "zh-daily-2": "wǔ hòu de yǔ gāng tíng lóu xià nà jiā jiù shū diàn bǎ mén bǎn xiè xià lái ràng cháo shī de fēng chuī jìn wū zi shū yè dài zhe zhǐ zhāng hé huī chén hùn hé de wèi dào xiàng yī duàn bèi yí wàng de shí guāng lǎo bǎn zuò zài chuāng biān xiū yī běn diào le fēng miàn de shī jí dòng zuò hěn màn què hěn wěn wǒ zài zuì dǐ céng de shū jià shàng zhǎo dào yī běn hěn jiù de lǚ xíng bǐ jì fēi yè xiě zhe yuàn nǐ zǒu guò de lù dōu chéng wéi tái tóu shí néng kàn jiàn de xīng guāng wǒ méi yǒu mǎi xià tā zhǐ zài yuán dì dú wán le nà yī yè lí kāi shí tiān biān lù chū yì diǎn lán sè jī shuǐ lǐ dào yìng zhe wū yán hé yún yuán lái yǒu xiē xiāng yù bù xū yào dài zǒu shén me tā zhǐ yào zài mǒu gè xià wǔ ān jìng de tí xǐng nǐ shì jiè réng rán zhí de qī dài",
+      "zh-tech-1": "rú guǒ gěi shí nián hòu de zì jǐ xiě yī fēng xìn nǐ huì xiě xiē shén me yě xǔ kě yǐ gào su nà ge gèng chéng shú de rén jīn tiān de nǐ zhèng zài xué xí yī xiàng xīn jì néng cháng cháng chū cuò yě cháng cháng xiǎng yào fàng qì dàn nǐ hái shì huì dǎ kāi diàn nǎo bǎ liàn xí wǎng qián tuī jìn yì diǎn diǎn jì shù gēng xīn de hěn kuài zhēn zhèng kě kào de néng lì què wǎng wǎng lái zì fǎn fù de liàn xí lǐ jiě wèn tí chāi jiě bù zhòu yàn zhèng jié guǒ zài cóng shī bài lǐ zhǎo chū xià yī cì de xiàn suǒ bú yào hài pà gōng jù biàn de gèng cōng míng yīn wèi hào qí xīn nài xīn hé pàn duàn lì shǐ zhōng shǔ yú yuàn yì si kǎo de rén xiě xìn de yì yì bú shì yù cè wèi lái ér shì jì zhù cǐ kè wèi shén me chū fā děng nà fēng xìn bèi chāi kāi shí xī wàng nǐ hái bǎo yǒu jīn tiān zhè fèn bèn zhuō ér jiān dìng de yǒng qì",
+      "zh-tech-2": "wǒ men měi tiān zài píng mù zhī jiān chuān suō zǎo chén chá tiān qì zhōng wǔ diǎn yī fèn wài mài shēn yè yòng dì tú xún zhǎo huí jiā de lù nà xiē kàn sì ān jìng de yìng yòng bèi hòu shì yī zhěng tào bù tíng yùn xíng de xì tǒng shù jù zài jī fáng zhī jiān liú dòng suàn fǎ zài yī shùn jiān wán chéng pái xù gōng chéng shī zé wèi le yī cì wēi xiǎo de yán chí fǎn fù pái chá rì zhì jì shù bìng bù shén mì tā zhǐ shì bèi chāi chéng xǔ duō qīng chu de xiǎo wèn tí zài zhú yī jiě jué zhēn zhèng kùn nán de shì zài xiào lǜ zhī wài jì zhù rén de gǎn shòu àn niǔ shì fǒu hǎo zhǎo tí shì shì fǒu yǒu shàn chū cuò shí yǒu méi yǒu rén yuàn yì jiě shì chéng shì yīn wèi zhè xiē kàn bú jiàn de gōng zuò ér biàn de shùn chàng ér dāng yǒu rén fǔ shēn qīng tīng lěng bīng bīng de dài mǎ cái zhēn zhèng yǒu le wēn dù",
+      "zh-culture-1": "běi fāng rén xí guàn yòng yī wǎn miàn kāi qǐ yī tiān huó miàn xǐng miàn gǎn miàn měi yī bù dōu jí bu de shuǐ kāi zhī hòu miàn tiáo xià guō fān liǎng gè shēn jiù shú jiāo shàng gāng chǎo hǎo de fān qié jī dàn rè qì lì kè bǎ chuāng zi méng bái zhǎng bèi cháng shuō chī fàn yào màn yì diǎn huà yě yào màn yì diǎn nián qīng shí wǒ bù dǒng zǒng jué de shí jiān bù gòu yòng hòu lái cái fā xiàn hěn duō zhòng yào de shì qing qià qià shì zài fàn zhuō shàng bèi shuō qīng chu de shuí zuì jìn yù dào le kùn nán shuí yòu qiāo qiāo wán chéng le yī jiàn xiǎo yuàn wàng yī wǎn miàn de shí jiān bù cháng què zú gòu ràng yī jiā rén chóng xīn duì shàng xiàn suǒ wèi yān huǒ qì dà gài jiù shì yǒu rén jì de nǐ de kǒu wèi yě yuàn yì wèi nǐ duō děng yī huì er",
+      "zh-culture-2": "xiàng kǒu yǒu yī jiān hěn xiǎo de pù zi mén méi shàng guà zhe jǐ bǎ yán sè tuì jìn de sǎn xiū sǎn de lǎo rén zǒng shì dài zhe yǎn jìng bǎ xì cháng de sǎn gǔ yī gēn gēn lǐ shùn yǒu rén wèn tā rú jīn sǎn huài le jiù huàn xīn de wèi shén me hái yào xiū tā tái tóu xiào le xiào dōng xi yòng jiǔ le zǒng yǒu xiē shě bu de shuō huà jiān tā tiāo chū yǔ yuán yàng xiāng jìn de xiàn bǎ zuì hòu yī chù liè kǒu féng hǎo yòu chēng kāi sǎn miàn zhuàn le yī quān yáng guāng tòu guò bǔ guò de dì fang luò xià qiǎn qiǎn de yǐng zi wǒ men dōu zài kuài sù xiàng qián de shí dài lǐ shēng huó xí guàn bǎ jiù wù hé jiù shì liú zài shēn hòu dàn zǒng yǒu rén yuàn yì màn xià lái tì yī bǎ jiù sǎn xù shàng jǐ nián de fēng yǔ yě tì cōng máng de lù rén shǒu zhù yì diǎn nài xīn",
+    };
+
     const EN = {
       "nav.label": "Typing Studio",
       "brand.name": "KeyFlow",
@@ -114,7 +125,10 @@ window.__ModuleLoader__.load({
       "topics.culture": "Culture",
       "languages.zh": "Chinese",
       "languages.en": "English",
-      "hint.zh": "Chinese uses your system IME. Scoring reads committed text only.",
+      "pinyin.label": "Pinyin",
+      "pinyin.show": "Show pinyin guides",
+      "pinyin.hide": "Hide pinyin guides",
+      "hint.zh": "Chinese uses your system IME. Pinyin guides follow each character; scoring reads committed text only.",
       "hint.en": "Mind case and punctuation. Spaces count toward progress.",
       "passage.preview": "PRACTICE PASSAGE",
       "passage.unit": "chars",
@@ -192,7 +206,10 @@ window.__ModuleLoader__.load({
       "topics.culture": "人文",
       "languages.zh": "中文",
       "languages.en": "英文",
-      "hint.zh": "使用系统输入法，评分以上屏文字为准。",
+      "pinyin.label": "拼音",
+      "pinyin.show": "显示拼音",
+      "pinyin.hide": "隐藏拼音",
+      "hint.zh": "使用系统输入法，逐字拼音可辅助练习；评分以上屏文字为准。",
       "hint.en": "注意大小写与标点，空格也计入进度。",
       "passage.preview": "练习文本",
       "passage.unit": "字",
@@ -560,6 +577,24 @@ window.__ModuleLoader__.load({
         color: var(--dsw-alias-label-primary);
         border-color: var(--dsw-alias-border-l2);
       }
+      button.ts-badge-btn.is-active {
+        color: var(--dsw-alias-brand-primary);
+        border-style: solid;
+        border-color: color-mix(in srgb, var(--dsw-alias-brand-primary) 36%, var(--dsw-alias-border-l1));
+        background: color-mix(in srgb, var(--dsw-alias-brand-primary) 9%, transparent);
+      }
+      button.ts-badge-btn.is-active::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        margin-right: 5px;
+        border-radius: 50%;
+        background: var(--dsw-alias-brand-primary);
+      }
+      button.ts-badge-btn.is-active:hover {
+        color: var(--dsw-alias-brand-primary);
+        border-color: color-mix(in srgb, var(--dsw-alias-brand-primary) 52%, var(--dsw-alias-border-l1));
+      }
       .ts-timer-pill {
         display: inline-flex;
         align-items: center;
@@ -604,7 +639,33 @@ window.__ModuleLoader__.load({
         line-height: 2;
         letter-spacing: 0.018em;
       }
+      .ts-target.has-pinyin { line-height: 2.55; }
+      .ts-target.ts-lang-zh.has-pinyin { line-height: 2.55; }
       .ts-word { display: inline-block; white-space: nowrap; }
+      .ts-ruby {
+        ruby-align: center;
+        white-space: nowrap;
+      }
+      .ts-ruby .ts-ch { white-space: nowrap; }
+      .ts-rt {
+        padding-bottom: 1px;
+        font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", ui-sans-serif, sans-serif;
+        font-size: 0.44em;
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: 0.015em;
+        color: var(--dsw-alias-label-secondary);
+        opacity: 0.76;
+      }
+      .ts-ruby.is-ok .ts-rt { opacity: 0.58; }
+      .ts-ruby.is-bad .ts-rt {
+        color: var(--dsw-alias-state-error-primary);
+        opacity: 0.95;
+      }
+      .ts-ruby.is-current .ts-rt {
+        color: var(--dsw-alias-brand-primary);
+        opacity: 1;
+      }
       .ts-ch {
         border-radius: 3px;
         color: var(--dsw-alias-label-secondary);
@@ -1415,6 +1476,19 @@ window.__ModuleLoader__.load({
       return tokens;
     }
 
+    function buildPinyinMap(text, pinyin) {
+      const map = new Array(text.length).fill("");
+      if (!pinyin) return map;
+      const syllables = String(pinyin).trim().split(/\s+/);
+      let syllableIndex = 0;
+      for (let index = 0; index < text.length; index += 1) {
+        if (!CJK_PATTERN.test(text[index])) continue;
+        if (syllableIndex < syllables.length) map[index] = syllables[syllableIndex];
+        syllableIndex += 1;
+      }
+      return map;
+    }
+
     function characterClass(target, typed, index, running) {
       if (index < typed.length) {
         return target[index] === typed[index] ? "is-ok" : "is-bad";
@@ -1501,15 +1575,24 @@ window.__ModuleLoader__.load({
       const typed = props.typed;
       const running = props.running;
       const lang = props.lang;
+      const showPinyin = props.showPinyin;
       const scrollRef = props.scrollRef;
       const tokens = React.useMemo(function () { return tokenizeTarget(text); }, [text]);
+      const pinyinMap = React.useMemo(
+        function () { return buildPinyinMap(text, props.pinyin); },
+        [text, props.pinyin]
+      );
+      const hasPinyin = !!(showPinyin && props.pinyin);
 
       return h(
         "div",
         { className: "ts-target-scroll", ref: scrollRef },
         h(
           "div",
-          { className: "ts-target " + (lang === "zh" ? "ts-lang-zh" : "ts-lang-en"), lang: lang === "zh" ? "zh-CN" : "en" },
+          {
+            className: "ts-target " + (lang === "zh" ? "ts-lang-zh" : "ts-lang-en") + (hasPinyin ? " has-pinyin" : ""),
+            lang: lang === "zh" ? "zh-CN" : "en"
+          },
           tokens.map(function (token) {
             if (token.type === "space") {
               const state = characterClass(text, typed, token.start, running);
@@ -1543,6 +1626,22 @@ window.__ModuleLoader__.load({
               return h("span", { key: "w-" + token.start, className: "ts-word" }, chars);
             }
             const state = characterClass(text, typed, token.start, running);
+            const pinyinText = showPinyin ? pinyinMap[token.start] : "";
+            if (pinyinText) {
+              return h(
+                "ruby",
+                { key: "c-" + token.start, className: "ts-ruby " + state },
+                h(
+                  "span",
+                  {
+                    className: "ts-ch " + state,
+                    "data-current": running && token.start === typed.length ? "true" : undefined
+                  },
+                  token.value
+                ),
+                h("rt", { className: "ts-rt", lang: "zh-Latn" }, pinyinText)
+              );
+            }
             return h(
               "span",
               {
@@ -1625,6 +1724,7 @@ window.__ModuleLoader__.load({
       const [correctAttempts, setCorrectAttempts] = React.useState(0);
       const [remainingMs, setRemainingMs] = React.useState(settings.duration * 1000);
       const [composing, setComposing] = React.useState(false);
+      const [showPinyin, setShowPinyin] = React.useState(true);
       const [result, setResult] = React.useState(null);
       const [history, setHistory] = React.useState(loadHistory);
       const [runId, setRunId] = React.useState(0);
@@ -1646,6 +1746,7 @@ window.__ModuleLoader__.load({
       const running = phase === "running";
       const done = phase === "done";
       const targetLength = passage.text.length;
+      const pinyinForPassage = lang === "zh" ? PINYIN[passage.id] || "" : "";
       const correctTyped = React.useMemo(function () { return countCorrect(passage.text, typed); }, [passage.text, typed]);
       const best = React.useMemo(function () { return findBest(history, lang); }, [history, lang]);
       const langRuns = React.useMemo(
@@ -1848,6 +1949,15 @@ window.__ModuleLoader__.load({
         beginWith(passage);
       }
 
+      function handleTogglePinyin() {
+        setShowPinyin(function (value) { return !value; });
+        if (phaseRef.current === "running") {
+          window.setTimeout(function () {
+            if (inputRef.current) inputRef.current.focus({ preventScroll: true });
+          }, 0);
+        }
+      }
+
       function handleShuffle() {
         if (phaseRef.current === "running") return;
         setPassage(pickPassage(lang, topic, passage.id));
@@ -1916,7 +2026,7 @@ window.__ModuleLoader__.load({
             box.scrollTop += currentRect.top - boxRect.top - margin;
           }
         },
-        [typed, running]
+        [typed, running, showPinyin]
       );
 
       React.useEffect(
@@ -2071,6 +2181,20 @@ window.__ModuleLoader__.load({
                           tr("passage.shuffle")
                         )
                       : null,
+                    lang === "zh"
+                      ? h(
+                          "button",
+                          {
+                            type: "button",
+                            className: "ts-badge ts-badge-btn ts-pinyin-toggle" + (showPinyin ? " is-active" : ""),
+                            "aria-pressed": showPinyin ? "true" : "false",
+                            "aria-label": tr(showPinyin ? "pinyin.hide" : "pinyin.show"),
+                            title: tr(showPinyin ? "pinyin.hide" : "pinyin.show"),
+                            onClick: handleTogglePinyin
+                          },
+                          tr("pinyin.label")
+                        )
+                      : null,
                     h("span", { className: "ts-badge" }, langLabel),
                     h("span", { className: "ts-badge" }, String(targetLength) + " " + passageUnit),
                     running ? h("span", { className: "ts-timer-pill", role: "timer", "aria-label": tr("timer.label") + " " + secondsLeft }, secondsLeft) : null
@@ -2081,6 +2205,8 @@ window.__ModuleLoader__.load({
                   typed,
                   running,
                   lang,
+                  pinyin: pinyinForPassage,
+                  showPinyin,
                   scrollRef: targetRef
                 })
               ),
