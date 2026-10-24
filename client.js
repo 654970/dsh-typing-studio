@@ -10,10 +10,14 @@ window.__ModuleLoader__.load({
     const MAIN_ID = "typing-studio";
     const HISTORY_KEY = "dsh.typing-studio.history.v1";
     const PREFS_KEY = "dsh.typing-studio.prefs.v1";
+    const CUSTOM_KEY = "dsh.typing-studio.custom.v1";
+    const CUSTOM_LIMIT = 50;
+    const CUSTOM_BYTES = 200 * 1024;
+    const CUSTOM_TEXT_MAX = 2000;
     const HISTORY_LIMIT = 16;
     const LANGUAGES = ["zh", "en"];
     const DURATIONS = [30, 60, 120];
-    const TOPICS = ["all", "daily", "tech", "culture"];
+    const TOPICS = ["all", "daily", "tech", "culture", "custom"];
 
     const PASSAGES = {
       zh: [
@@ -123,6 +127,26 @@ window.__ModuleLoader__.load({
       "topics.daily": "Everyday",
       "topics.tech": "Technology",
       "topics.culture": "Culture",
+      "topics.custom": "Mine",
+      "custom.open": "Manage passages",
+      "custom.kicker": "CUSTOM PASSAGES",
+      "custom.title": "Your own passages",
+      "custom.intro": "Paste any text and save it as a passage. Separate several passages with a blank line.",
+      "custom.name": "Title (optional)",
+      "custom.namePlaceholder": "Defaults to the first words of the passage",
+      "custom.body": "Text",
+      "custom.bodyPlaceholder": "Paste the text you want to practise",
+      "custom.add": "Save passage",
+      "custom.close": "Done",
+      "custom.delete": "Delete",
+      "custom.empty": "No custom passages yet.",
+      "custom.meter": "Stored",
+      "custom.needText": "Paste some text first.",
+      "custom.saved": "Added",
+      "custom.rejected": "skipped",
+      "custom.full": "The list is full: delete a passage first.",
+      "custom.tooLong": "Long text was shortened to 2000 characters",
+      "custom.noPinyin": "Chinese custom passages are practised without pinyin guides.",
       "languages.zh": "Chinese",
       "languages.en": "English",
       "pinyin.label": "Pinyin",
@@ -204,6 +228,26 @@ window.__ModuleLoader__.load({
       "topics.daily": "日常",
       "topics.tech": "科技",
       "topics.culture": "人文",
+      "topics.custom": "自定义",
+      "custom.open": "管理段落",
+      "custom.kicker": "自定义段落",
+      "custom.title": "你自己的段落",
+      "custom.intro": "粘贴任意文字并存为段落；空一行可以一次存多段。",
+      "custom.name": "标题（可选）",
+      "custom.namePlaceholder": "默认取段落开头几个字",
+      "custom.body": "正文",
+      "custom.bodyPlaceholder": "粘贴你想练的文字",
+      "custom.add": "保存段落",
+      "custom.close": "完成",
+      "custom.delete": "删除",
+      "custom.empty": "还没有自定义段落。",
+      "custom.meter": "已存",
+      "custom.needText": "先粘贴一些文字。",
+      "custom.saved": "已添加",
+      "custom.rejected": "跳过",
+      "custom.full": "已经存满：先删掉一段。",
+      "custom.tooLong": "过长的文字已截到 2000 字",
+      "custom.noPinyin": "中文自定义段落没有拼音标注，练习时不显示拼音。",
       "languages.zh": "中文",
       "languages.en": "英文",
       "pinyin.label": "拼音",
@@ -420,6 +464,134 @@ window.__ModuleLoader__.load({
         grid-template-columns: minmax(0, 1fr) 292px;
         align-items: start;
         gap: 20px;
+      }
+      .ts-custom {
+        margin: 16px 22px 0;
+        padding: 15px 16px 16px;
+        border: 1px solid var(--dsw-alias-border-l1);
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--dsw-alias-bg-layer-1) 72%, transparent);
+      }
+      .ts-custom-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .ts-custom-head h3 {
+        margin: 4px 0 0;
+        font-size: 14px;
+        line-height: 1.3;
+        font-weight: 620;
+      }
+      .ts-custom-intro {
+        margin: 8px 0 12px;
+        font-size: 11px;
+        line-height: 1.6;
+        color: var(--dsw-alias-label-secondary);
+      }
+      .ts-custom-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+      .ts-custom-field input,
+      .ts-custom-field textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px 10px;
+        border: 1px solid var(--dsw-alias-border-l1);
+        border-radius: 8px;
+        background: var(--dsw-alias-bg-layer-1);
+        color: inherit;
+        font: inherit;
+        font-size: 12px;
+        line-height: 1.5;
+        resize: vertical;
+      }
+      .ts-custom-field input:focus-visible,
+      .ts-custom-field textarea:focus-visible {
+        outline: 2px solid var(--dsw-alias-border-l2, #4d6bfe);
+        outline-offset: 1px;
+      }
+      .ts-custom-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+      .ts-btn-primary {
+        appearance: none;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 7px 14px;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 560;
+        color: var(--dsw-alias-label-on-brand, #fff);
+        background: var(--dsw-alias-bg-brand, #4d6bfe);
+        cursor: pointer;
+      }
+      .ts-btn-primary:hover:not(:disabled) { filter: brightness(1.06); }
+      .ts-btn-primary:disabled { opacity: 0.5; cursor: default; }
+      .ts-btn-primary:focus-visible { outline: 2px solid var(--dsw-alias-border-l2, #4d6bfe); outline-offset: 2px; }
+      .ts-custom-meter {
+        font-size: 10px;
+        color: var(--dsw-alias-label-secondary);
+        font-variant-numeric: tabular-nums;
+      }
+      .ts-custom-note {
+        margin: 10px 0 0;
+        font-size: 11px;
+        line-height: 1.5;
+        color: var(--dsw-alias-label-secondary);
+      }
+      .ts-custom-note.is-error { color: var(--dsw-alias-label-error, #d33f3f); }
+      .ts-custom-warn {
+        margin: 10px 0 0;
+        font-size: 11px;
+        line-height: 1.5;
+        color: var(--dsw-alias-label-secondary);
+      }
+      .ts-custom-list {
+        list-style: none;
+        margin: 12px 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .ts-custom-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 7px 10px;
+        border: 1px solid var(--dsw-alias-border-l1);
+        border-radius: 9px;
+      }
+      .ts-custom-item-main {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+      .ts-custom-item-title {
+        font-size: 12px;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .ts-custom-item-meta {
+        font-size: 10px;
+        color: var(--dsw-alias-label-secondary);
+      }
+      .ts-custom-empty {
+        margin: 12px 0 0;
+        font-size: 11px;
+        color: var(--dsw-alias-label-secondary);
       }
       .ts-panel {
         min-width: 0;
@@ -1346,7 +1518,7 @@ window.__ModuleLoader__.load({
         if (!isRecord(raw)) continue;
         const at = Number(raw.at);
         if (!Number.isFinite(at) || at <= 0) continue;
-        const topic = raw.topic === "daily" || raw.topic === "tech" || raw.topic === "culture" ? raw.topic : "daily";
+        const topic = raw.topic === "daily" || raw.topic === "tech" || raw.topic === "culture" || raw.topic === "custom" ? raw.topic : "daily";
         records.push({
           id: typeof raw.id === "string" ? raw.id : "record-" + at + "-" + i,
           at,
@@ -1372,8 +1544,89 @@ window.__ModuleLoader__.load({
       return sanitizeHistory(readStorageJSON(HISTORY_KEY, []));
     }
 
-    function pickPassage(lang, topic, excludeId) {
-      const all = PASSAGES[lang] || PASSAGES.zh;
+    // Custom passages -------------------------------------------------------
+    // These are pasted by the user, so they carry no pinyin guides and no
+    // reviewed polyphone readings. They live in their own storage key so a
+    // large custom list never slows down the small preferences read.
+
+    function passageLanguage(text) {
+      return CJK_PATTERN.test(String(text || "")) ? "zh" : "en";
+    }
+
+    function customTitleOf(text) {
+      const clean = String(text || "").replace(/\s+/g, " ").trim();
+      if (!clean) return "-";
+      return clean.length > 22 ? clean.slice(0, 22) + "…" : clean;
+    }
+
+    function sanitizeCustomPassages(value) {
+      if (!Array.isArray(value)) return [];
+      const out = [];
+      for (let i = 0; i < value.length && out.length < CUSTOM_LIMIT; i += 1) {
+        const raw = value[i];
+        if (!raw || typeof raw !== "object") continue;
+        const text = typeof raw.text === "string" ? raw.text.replace(/\s+/g, " ").trim().slice(0, CUSTOM_TEXT_MAX) : "";
+        if (!text) continue;
+        const at = Number(raw.createdAt);
+        const stored = typeof raw.id === "string" && raw.id ? raw.id : "";
+        out.push({
+          id: stored || "custom-" + (Number.isFinite(at) && at > 0 ? at : Date.now()) + "-" + i,
+          topic: "custom",
+          title: typeof raw.title === "string" && raw.title.trim() ? raw.title.trim().slice(0, 60) : customTitleOf(text),
+          text: text,
+          createdAt: Number.isFinite(at) && at > 0 ? at : Date.now()
+        });
+      }
+      return out;
+    }
+
+    function loadCustomPassages() {
+      return sanitizeCustomPassages(readStorageJSON(CUSTOM_KEY, []));
+    }
+
+    function saveCustomPassages(list) {
+      writeStorageJSON(CUSTOM_KEY, list);
+    }
+
+    function customBytes(list) {
+      let total = 0;
+      for (let i = 0; i < list.length; i += 1) {
+        total += list[i].text.length + list[i].title.length;
+      }
+      return total;
+    }
+
+    function splitCustomInput(raw) {
+      const blocks = String(raw == null ? "" : raw).split(/\r?\n\s*\r?\n/);
+      const out = [];
+      for (let i = 0; i < blocks.length; i += 1) {
+        const text = blocks[i].replace(/\s*\r?\n\s*/g, " ").trim();
+        if (text) out.push(text);
+      }
+      return out;
+    }
+
+    function makeCustomPassage(text) {
+      const at = Date.now();
+      return {
+        id: "custom-" + at.toString(36) + "-" + Math.random().toString(36).slice(2, 6),
+        topic: "custom",
+        title: customTitleOf(text),
+        text: text,
+        createdAt: at
+      };
+    }
+
+    function customPoolFor(custom, lang) {
+      return (Array.isArray(custom) ? custom : []).filter(function (item) {
+        return passageLanguage(item.text) === lang;
+      });
+    }
+
+
+    function pickPassage(lang, topic, excludeId, custom) {
+      const builtIn = PASSAGES[lang] || PASSAGES.zh;
+      const all = builtIn.concat(customPoolFor(custom, lang));
       const filtered = all.filter(function (item) { return topic === "all" || item.topic === topic; });
       const pool = filtered.length ? filtered : all;
       const candidates = pool.filter(function (item) { return item.id !== excludeId; });
@@ -1431,7 +1684,7 @@ window.__ModuleLoader__.load({
     }
 
     function topicFor(t, topic) {
-      if (topic === "daily" || topic === "tech" || topic === "culture") return t("topics." + topic);
+      if (topic === "daily" || topic === "tech" || topic === "culture" || topic === "custom") return t("topics." + topic);
       return t("topics.all");
     }
 
@@ -1698,6 +1951,148 @@ window.__ModuleLoader__.load({
       );
     }
 
+
+    function CustomManager(props) {
+      const tr = props.tr;
+      const passages = props.passages;
+      const [title, setTitle] = React.useState("");
+      const [body, setBody] = React.useState("");
+      const [note, setNote] = React.useState(null);
+      const bytes = customBytes(passages);
+
+      function submit() {
+        const blocks = splitCustomInput(body);
+        if (!blocks.length) {
+          setNote({ kind: "error", text: tr("custom.needText") });
+          return;
+        }
+        const list = passages.slice();
+        let rejected = 0;
+        let shortened = 0;
+        for (let i = 0; i < blocks.length; i += 1) {
+          let text = blocks[i];
+          if (text.length > CUSTOM_TEXT_MAX) {
+            text = text.slice(0, CUSTOM_TEXT_MAX);
+            shortened += 1;
+          }
+          if (list.length >= CUSTOM_LIMIT) {
+            rejected += 1;
+            continue;
+          }
+          const next = makeCustomPassage(text);
+          if (!next.title) next.title = customTitleOf(text);
+          if (blocks.length === 1 && title.trim()) next.title = title.trim().slice(0, 60);
+          if (customBytes(list) + next.text.length + next.title.length > CUSTOM_BYTES) {
+            rejected += 1;
+            continue;
+          }
+          list.push(next);
+        }
+        if (list.length === passages.length) {
+          setNote({ kind: "error", text: tr("custom.full") });
+          return;
+        }
+        props.onSave(list);
+        setBody("");
+        setTitle("");
+        const added = list.length - passages.length;
+        let message = tr("custom.saved") + " " + added;
+        if (rejected > 0) message += " · " + tr("custom.rejected") + " " + rejected;
+        if (shortened > 0) message += " · " + tr("custom.tooLong");
+        setNote({ kind: "ok", text: message });
+      }
+
+      return h(
+        "section",
+        { className: "ts-custom", "aria-label": tr("custom.title") },
+        h(
+          "div",
+          { className: "ts-custom-head" },
+          h(
+            "div",
+            null,
+            h("span", { className: "ts-kicker" }, tr("custom.kicker")),
+            h("h3", null, tr("custom.title"))
+          ),
+          h(
+            "button",
+            { type: "button", className: "ts-badge ts-badge-btn", onClick: props.onClose },
+            tr("custom.close")
+          )
+        ),
+        h("p", { className: "ts-custom-intro" }, tr("custom.intro")),
+        h(
+          "label",
+          { className: "ts-custom-field" },
+          h("span", { className: "ts-field-label" }, tr("custom.name")),
+          h("input", {
+            type: "text",
+            value: title,
+            maxLength: 60,
+            placeholder: tr("custom.namePlaceholder"),
+            onChange: function (event) { setTitle(event.target.value); }
+          })
+        ),
+        h(
+          "label",
+          { className: "ts-custom-field" },
+          h("span", { className: "ts-field-label" }, tr("custom.body")),
+          h("textarea", {
+            value: body,
+            rows: 5,
+            placeholder: tr("custom.bodyPlaceholder"),
+            onChange: function (event) { setBody(event.target.value); }
+          })
+        ),
+        h(
+          "div",
+          { className: "ts-custom-actions" },
+          h(
+            "button",
+            { type: "button", className: "ts-btn-primary", onClick: submit, disabled: !body.trim() },
+            tr("custom.add")
+          ),
+          h(
+            "span",
+            { className: "ts-custom-meter" },
+            tr("custom.meter") + " " + passages.length + "/" + CUSTOM_LIMIT + " · " + Math.round(bytes / 1024) + "/" + Math.round(CUSTOM_BYTES / 1024) + " KB"
+          )
+        ),
+        note ? h("p", { className: "ts-custom-note" + (note.kind === "error" ? " is-error" : "") }, note.text) : null,
+        passages.length
+          ? h(
+              "ul",
+              { className: "ts-custom-list" },
+              passages.map(function (item) {
+                const itemLang = passageLanguage(item.text) === "zh" ? tr("languages.zh") : tr("languages.en");
+                return h(
+                  "li",
+                  { key: item.id, className: "ts-custom-item" },
+                  h(
+                    "div",
+                    { className: "ts-custom-item-main" },
+                    h("span", { className: "ts-custom-item-title" }, item.title),
+                    h(
+                      "span",
+                      { className: "ts-custom-item-meta" },
+                      itemLang + " · " + item.text.length + " " + tr("passage.unit")
+                    )
+                  ),
+                  h(
+                    "button",
+                    { type: "button", className: "ts-badge ts-badge-btn", onClick: function () { props.onRemove(item.id); } },
+                    tr("custom.delete")
+                  )
+                );
+              })
+            )
+          : h("p", { className: "ts-custom-empty" }, tr("custom.empty")),
+        passageLanguage(body) === "zh" && body.trim()
+          ? h("p", { className: "ts-custom-warn" }, tr("custom.noPinyin"))
+          : null
+      );
+    }
+
     function TypingStudio(props) {
       const t = props.t;
       const localeId = props.localeId;
@@ -1717,7 +2112,7 @@ window.__ModuleLoader__.load({
       const passageTitleId = uid + "-passage-title";
 
       const [settings, setSettings] = React.useState(function () { return loadPreferences(localeId); });
-      const [passage, setPassage] = React.useState(function () { return pickPassage(settings.lang, settings.topic); });
+      const [passage, setPassage] = React.useState(function () { return pickPassage(settings.lang, settings.topic, undefined, loadCustomPassages()); });
       const [phase, setPhase] = React.useState("idle");
       const [typed, setTyped] = React.useState("");
       const [attempts, setAttempts] = React.useState(0);
@@ -1727,6 +2122,8 @@ window.__ModuleLoader__.load({
       const [showPinyin, setShowPinyin] = React.useState(true);
       const [result, setResult] = React.useState(null);
       const [history, setHistory] = React.useState(loadHistory);
+      const [customPassages, setCustomPassages] = React.useState(loadCustomPassages);
+      const [customOpen, setCustomOpen] = React.useState(false);
       const [runId, setRunId] = React.useState(0);
 
       const phaseRef = React.useRef("idle");
@@ -1805,6 +2202,7 @@ window.__ModuleLoader__.load({
         setAttempts(0);
         setCorrectAttempts(0);
         setComposing(false);
+        setCustomOpen(false);
         setResult(null);
         setRemainingMs(duration * 1000);
         setRunId(runTokenRef.current);
@@ -1815,7 +2213,7 @@ window.__ModuleLoader__.load({
         const nextSettings = { ...settings, lang: nextLang };
         setSettings(nextSettings);
         writeStorageJSON(PREFS_KEY, nextSettings);
-        setPassage(pickPassage(nextLang, topic, passage.id));
+        setPassage(pickPassage(nextLang, topic, passage.id, customPassages));
         resetAttempt(nextSettings.duration);
       }
 
@@ -1832,8 +2230,27 @@ window.__ModuleLoader__.load({
         const nextSettings = { ...settings, topic: nextTopic };
         setSettings(nextSettings);
         writeStorageJSON(PREFS_KEY, nextSettings);
-        setPassage(pickPassage(lang, nextTopic, passage.id));
+        setPassage(pickPassage(lang, nextTopic, passage.id, customPassages));
         resetAttempt(nextSettings.duration);
+      }
+
+      function handleCustomSave(nextList) {
+        saveCustomPassages(nextList);
+        setCustomPassages(nextList);
+      }
+
+      function handleCustomRemove(id) {
+        const nextList = customPassages.filter(function (item) { return item.id !== id; });
+        saveCustomPassages(nextList);
+        setCustomPassages(nextList);
+        if (passage.id === id && phase !== "running") {
+          setPassage(pickPassage(lang, topic, id, nextList));
+          resetAttempt(duration);
+        }
+      }
+
+      function handleToggleCustom() {
+        setCustomOpen(function (value) { return !value; });
       }
 
       function finishRun(reason, forcedValue, token) {
@@ -1960,11 +2377,11 @@ window.__ModuleLoader__.load({
 
       function handleShuffle() {
         if (phaseRef.current === "running") return;
-        setPassage(pickPassage(lang, topic, passage.id));
+        setPassage(pickPassage(lang, topic, passage.id, customPassages));
       }
 
       function handleNext() {
-        beginWith(pickPassage(lang, topic, passage.id));
+        beginWith(pickPassage(lang, topic, passage.id, customPassages));
       }
 
       function handleClearHistory() {
@@ -2159,6 +2576,15 @@ window.__ModuleLoader__.load({
                 })
               ),
               h("p", { className: "ts-hint" }, langHint),
+              customOpen
+                ? h(CustomManager, {
+                    tr: tr,
+                    passages: customPassages,
+                    onSave: handleCustomSave,
+                    onRemove: handleCustomRemove,
+                    onClose: function () { setCustomOpen(false); }
+                  })
+                : null,
               h(
                 "section",
                 { className: "ts-preview", "aria-labelledby": passageTitleId },
@@ -2181,7 +2607,19 @@ window.__ModuleLoader__.load({
                           tr("passage.shuffle")
                         )
                       : null,
-                    lang === "zh"
+                    phase === "idle"
+                      ? h(
+                          "button",
+                          {
+                            type: "button",
+                            className: "ts-badge ts-badge-btn" + (customOpen ? " is-active" : ""),
+                            "aria-expanded": customOpen ? "true" : "false",
+                            onClick: handleToggleCustom
+                          },
+                          tr("custom.open")
+                        )
+                      : null,
+                    lang === "zh" && pinyinForPassage
                       ? h(
                           "button",
                           {

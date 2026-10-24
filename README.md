@@ -11,6 +11,7 @@ Repository: [654970/dsh-typing-studio](https://github.com/654970/dsh-typing-stud
 - **Chinese and English practice** with 12 original passages across everyday life, technology, and culture.
 - **Timed sessions** of 30, 60, or 120 seconds.
 - **Pinyin guides** above every Chinese character, with a toggle to hide them for unassisted speed practice.
+- **Custom passages** — paste your own Chinese or English text, keep up to 50 of them, and practise them next to the built-in set. Custom Chinese passages show without pinyin, because readings are not inferred.
 - **IME-aware Chinese input** — only committed text is scored, so pinyin candidate editing does not create false misses.
 - **Per-character feedback** with correct, incorrect, and current-character states. The passage follows your position automatically.
 - **Live statistics** for time left, speed, accuracy, and passage progress.
@@ -41,7 +42,7 @@ Pinyin readings were generated with [pypinyin](https://github.com/mozillazg/pyth
 
 ## Privacy
 
-The plugin writes two `localStorage` values: practice preferences and up to 16 practice records. Personal bests are derived from those records. Nothing is uploaded.
+The plugin writes three `localStorage` values: practice preferences, up to 16 practice records, and up to 50 custom passages (capped at 200 KB). Personal bests are derived from those records. Nothing is uploaded.
 
 ## License
 
